@@ -1,0 +1,15 @@
+.ToolBar {
+  z-index: 2000;
+  padding: 10px 20px;
+  background: #fff;
+  position: fixed;
+  top: 0;
+}
+.ToolBar span {
+  font-weight: bold;
+}
+
+.ToolBar .logo {
+  width: 30px;
+  margin-right: 20px;
+}
