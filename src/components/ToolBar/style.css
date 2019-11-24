@@ -1,6 +1,8 @@
 .ToolBar {
   z-index: 2000;
-  padding: 10px 20px;
+  margin-top: 10px;
+  margin-left: 10px;
+  padding: 5px 20px;
   background: #fff;
   position: fixed;
   top: 0;

@@ -4,9 +4,7 @@ import { Map,
   ZoomControl, 
   LayersControl,
   ScaleControl,
-  Circle,
-  Popup,
-  FeatureGroup
+  GeoJSON,
 } from 'react-leaflet';
 import { BingLayer } from 'react-leaflet-bing-v2';
 import { GoogleLayer } from 'react-leaflet-google-v2';
@@ -15,17 +13,58 @@ import 'antd/dist/antd.css';
 
 import './App.css';
 import ToolBar from './components/ToolBar';
+import edificacoes from './data/edificacoes.json';
+import quadras from './data/quadras.json';
+import bairros from './data/bairros.json';
 
 const { BaseLayer, Overlay } = LayersControl;
 function App() {
   const bingKey = "AoKV3mtMdigVbKYfXMeIsS8z2MN4eJvCxVmorqjfgde9yjCiZ2josjNuaB7UBpGw";
   const googleKey = "AIzaSyDzzLNXuBgVKe-e2ncEHeDbMifq9Y0h5V0";
 
+  function getGeoJSONEdificacoes(){ 
+    return edificacoes;
+  }
+
+  function getGeoJSONQuadras(){ 
+    return quadras;
+  }
+
+  function getGeoJSONBairros(){ 
+    return bairros;
+  }
+
+  function onEachFeatureEdificacoes(feature, layer) {
+    // does this feature have a property named popupContent?
+    if (feature.properties) {
+        layer.bindPopup(`<span>Informações</span>
+        <br/>ID: ${feature.properties.fid}
+        <br/>Área (m²): ${feature.properties.area_m2}`);
+    }
+  }
+
+  function onEachFeatureQuadras(feature, layer) {
+    // does this feature have a property named popupContent?
+    if (feature.properties) {
+        layer.bindPopup(`<span>Informações</span>
+        <br/>ID: ${feature.properties.id}`);
+    }
+  }
+
+  function onEachFeatureBairros(feature, layer) {
+    // does this feature have a property named popupContent?
+    if (feature.properties) {
+        layer.bindPopup(`<span>Informações</span>
+        <br/>ID: ${feature.properties.id}`);
+    }
+  }
+
+
   return (
     <div className="App">
       <Map 
         center={[-6.815734, -37.199024]}
-        zoom={16}
+        zoom={14}
         zoomControl={false} 
         style={{ height: `${100}%`}}
       >
@@ -58,11 +97,25 @@ function App() {
             <GoogleLayer googlekey={googleKey}  maptype='TERRAIN' />
           </BaseLayer>
 
-          <Overlay name="Feature group">
-            <FeatureGroup color="#0f0">
-              <Popup>Informações</Popup>
-              <Circle center={[51.51, -0.06]} radius={200} />
-            </FeatureGroup>
+          <Overlay name="Edificações" >
+            <GeoJSON id="edificacoes"
+              data={getGeoJSONEdificacoes()} 
+              onEachFeature={onEachFeatureEdificacoes}
+            />
+          </Overlay>
+          <Overlay name="Quadras">
+            <GeoJSON id="quadras"
+              data={getGeoJSONQuadras()} 
+              onEachFeature={onEachFeatureQuadras}
+              style={{ color: "#ff8c1a"}}
+            />
+          </Overlay>
+          <Overlay name="Bairros">
+            <GeoJSON id="bairros"
+              data={getGeoJSONBairros()} 
+              onEachFeature={onEachFeatureBairros}
+              style={{ color: "#ff1ab3"}}
+            />
           </Overlay>
 
         </LayersControl>

@@ -13,3 +13,15 @@ body {
   font-family: 'Roboto', Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased !important;
 }
+
+#edificacoes {
+  z-index: 10000;
+}
+
+#quadras {
+  z-index: 9000;
+}
+
+#bairros {
+  z-index: 8000;
+}
